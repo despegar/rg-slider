@@ -138,7 +138,9 @@ angular.module('rangeSlider')
          */
         function updateBoundVar() {
           scope.$evalAsync(function (scope) {
-            scope.boundVar = scope.curValue;
+            if(scope.curValue){
+              scope.boundVar = scope.curValue;
+            }
           });
         }
 
