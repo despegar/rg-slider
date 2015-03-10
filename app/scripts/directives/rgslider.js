@@ -12,7 +12,8 @@ angular.module('rangeSlider')
         step:           '=',
         navigatorFrom:  '=',
         navigatorTo:    '=',
-        boundVar:       '='
+        boundVar:       '=',
+        invalidRange:       '@'
       },
       replace: false,
       link: function postLink(scope, element) {
@@ -25,7 +26,8 @@ angular.module('rangeSlider')
           positionWatcher,
           trackerWidth,
           STEP_DIFFERENCE = 1,
-          wrapperOfssetLeft = wrapper.firstChild.getBoundingClientRect().left;
+          wrapperOfssetLeft = wrapper.firstChild.getBoundingClientRect().left,
+          invalidRangeArray;
 
         /**
          * @description finds element by given classname inside the dom list of given element
@@ -84,13 +86,16 @@ angular.module('rangeSlider')
          * @param event
          */
         function mouseMoveHandler(event) {
-          curX = event.pageX - wrapperOfssetLeft;
-          //console.log(curX);
+            curX = event.pageX - wrapperOfssetLeft;
+            //console.log(curX);
           if (positionWatcher) {
             slideTracker();
           }
         }
 
+        function isValidValue(val){
+            return ( (val < invalidRangeArray[0]) || (val > invalidRangeArray[1]) );
+        }
         /**
          * @description Calculate the position of tracker, where he must go and return
          * @returns {number}
@@ -103,14 +108,18 @@ angular.module('rangeSlider')
           if (goTo < 0) {
             goTo = 0;
           }
-
           scope.curValue = Math.round(goTo);
           // if setted step go calculate exact step
           if (totalSteps) {
             goTo = calculateByStep(goTo,currentStep);
           }
-
-          return (goTo <= availableWidth) ? goTo : availableWidth;
+          // to not get disabled value
+          //console.log( scope.curValue, ((goTo <= availableWidth) ? goTo : availableWidth));
+          if ((scope.invalidRange && isValidValue(scope.curValue)) || !scope.invalidRange){
+              return (goTo <= availableWidth) ? goTo : availableWidth;
+          }else{
+            return undefined;
+          }
         }
 
         /**
@@ -148,8 +157,11 @@ angular.module('rangeSlider')
          * @description Render tracker and update boundVar
          */
         function slideTracker(currentStep) {
-          tracker.style.left = getExpectedPosition(currentStep) + '%';
-          updateBoundVar();
+          var newLeftValue = getExpectedPosition(currentStep);
+          if (typeof newLeftValue != 'undefined'){
+            tracker.style.left = newLeftValue+ '%';
+            updateBoundVar();
+          }
         }
 
         /**
@@ -259,7 +271,9 @@ angular.module('rangeSlider')
             // Set first value as current value
 
           }
-
+          if (scope.invalidRange){
+            invalidRangeArray =  scope.invalidRange.split("-");
+          }
           setTracker();
 
         }

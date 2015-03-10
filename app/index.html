@@ -66,6 +66,23 @@
         </div>
 
         <div class="panel panel-default" ng-if="true">
+            <div class="panel-heading"><b > Crazy Example with step and invalid range (650-999)</b></div>
+            <div class="panel-body">
+                <rg-slider bound-var="sliderValue"
+                           invalid-range="650-999"
+                           step="1001"></rg-slider>
+                <p>&nbsp;</p>
+                <h5><b>Slider value&nbsp;</b><span class="label label-info">{{sliderValue}}</span></h5>
+                <h5><b>Code &nbsp;</b></h5>
+                    <pre class="prettyprint linenums">
+        &lt;rg-slider
+            bound-var="sliderValue"
+            invalid-range="650-922"
+            step="1000"&gt;
+        &lt;&#47;rg-slider&gt; </pre>
+            </div>
+        </div>
+      <div class="panel panel-default" ng-if="true">
             <div class="panel-heading"><b > Example with step</b></div>
             <div class="panel-body">
                 <rg-slider tracker-class="my-tracker rg-tracker-with-animation"
