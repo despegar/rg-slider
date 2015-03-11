@@ -13,7 +13,8 @@ angular.module('rangeSlider')
         navigatorFrom:  '=',
         navigatorTo:    '=',
         boundVar:       '=',
-        invalidRange:       '@'
+        invalidFrom:       '=',
+        invalidTo:       '='
       },
       replace: false,
       link: function postLink(scope, element) {
@@ -26,8 +27,7 @@ angular.module('rangeSlider')
           positionWatcher,
           trackerWidth,
           STEP_DIFFERENCE = 1,
-          wrapperOfssetLeft = wrapper.firstChild.getBoundingClientRect().left,
-          invalidRangeArray;
+          wrapperOfssetLeft = wrapper.firstChild.getBoundingClientRect().left;
 
         /**
          * @description finds element by given classname inside the dom list of given element
@@ -94,7 +94,7 @@ angular.module('rangeSlider')
         }
 
         function isValidValue(val){
-            return ( (val < invalidRangeArray[0]) || (val > invalidRangeArray[1]) );
+            return ( (val < scope.invalidFrom) || (val > scope.invalidTo) );
         }
         /**
          * @description Calculate the position of tracker, where he must go and return
@@ -115,7 +115,7 @@ angular.module('rangeSlider')
           }
           // to not get disabled value
           //console.log( scope.curValue, ((goTo <= availableWidth) ? goTo : availableWidth));
-          if ((scope.invalidRange && isValidValue(scope.curValue)) || !scope.invalidRange){
+          if (((typeof scope.invalidFrom != 'undefined') && isValidValue(scope.curValue)) || (typeof scope.invalidFrom == 'undefined')){
               return (goTo <= availableWidth) ? goTo : availableWidth;
           }else{
             return undefined;
@@ -246,6 +246,7 @@ angular.module('rangeSlider')
          * - Generate needed variables
          */
         function init() {
+          console.log('init()');
           scope.$on('$destroy', removeEventListeners);
           initEventListeners();
           selectedStep = 0;
@@ -271,9 +272,13 @@ angular.module('rangeSlider')
             // Set first value as current value
 
           }
-          if (scope.invalidRange){
-            invalidRangeArray =  scope.invalidRange.split("-");
+          if ((typeof scope.invalidFrom != 'undefined') && (typeof scope.invalidTo == 'undefined') && totalSteps){
+            scope.invalidTo = totalSteps+1;
           }
+          if ((typeof scope.invalidFrom == 'undefined') && (typeof scope.invalidTo != 'undefined') && totalSteps){
+            scope.invalidFrom = 0;
+          }
+
           setTracker();
 
         }
