@@ -106,7 +106,7 @@ angular.module('rangeSlider')
          * @param {number} currentStep is the boundVar value, if it defined we calculating with exact step
          */
         function getExpectedPosition(currentStep) {
-          var goTo = ((100 * (curX - trackerWidth)) / rgSliderWrapper.clientWidth),
+          var goTo = ((100 * (curX /*- trackerWidth*/)) / rgSliderWrapper.clientWidth),
             availableWidth = 100 - ((100 * trackerWidth) / rgSliderWrapper.clientWidth);
           // to not get negative value
           if (goTo < 0) {
