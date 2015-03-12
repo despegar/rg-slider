@@ -71,6 +71,10 @@ angular.module('rangeSlider')
           positionWatcher = true;
         }
 
+        function windowResizeHandler(){
+          wrapperOfssetLeft = wrapper.firstChild.getBoundingClientRect().left;
+        }
+
         function mouseDownHandler() {
           startUpdatingTracker();
         }
@@ -172,6 +176,7 @@ angular.module('rangeSlider')
           wrapper.addEventListener('click', slideTracker);
           document.addEventListener('mouseup', mouseUpHandler);
           document.addEventListener('mousemove', mouseMoveHandler);
+          window.addEventListener('resize', windowResizeHandler);
         }
 
         function removeEventListeners() {
@@ -246,7 +251,6 @@ angular.module('rangeSlider')
          * - Generate needed variables
          */
         function init() {
-          console.log('init()');
           scope.$on('$destroy', removeEventListeners);
           initEventListeners();
           selectedStep = 0;
