@@ -27,7 +27,10 @@ angular.module('rangeSlider')
           positionWatcher,
           trackerWidth,
           STEP_DIFFERENCE = 1,
-          wrapperOfssetLeft = wrapper.firstChild.getBoundingClientRect().left;
+          wrapperOfssetLeft = wrapper.firstChild.getBoundingClientRect().left,
+          isValidValue,
+          invalidRangeMiddle,
+          getClosestValidValue;
 
         /**
          * @description finds element by given classname inside the dom list of given element
@@ -67,6 +70,7 @@ angular.module('rangeSlider')
         tracker = getElementByClassName(element[0], 'rg-tracker');
         rgSliderWrapper = getElementByClassName(element[0], 'rg-slider-wrapper');
         trackerWidth = tracker.clientWidth;
+
         function startUpdatingTracker() {
           positionWatcher = true;
         }
@@ -97,9 +101,6 @@ angular.module('rangeSlider')
           }
         }
 
-        function isValidValue(val){
-            return ( (val < scope.invalidFrom) || (val > scope.invalidTo) );
-        }
         /**
          * @description Calculate the position of tracker, where he must go and return
          * @returns {number}
@@ -118,11 +119,16 @@ angular.module('rangeSlider')
             goTo = calculateByStep(goTo,currentStep);
           }
           // to not get disabled value
-          //console.log( scope.curValue, ((goTo <= availableWidth) ? goTo : availableWidth));
-          if (((typeof scope.invalidFrom != 'undefined') && isValidValue(scope.curValue)) || (typeof scope.invalidFrom == 'undefined')){
+          if ( isValidValue(scope.curValue) ) {
               return (goTo <= availableWidth) ? goTo : availableWidth;
           }else{
-            return undefined;
+            if ( !isUndefined(scope.invalidFrom) || !isUndefined(scope.invalidTo) ){
+              scope.curValue = Math.round(getClosestValidValue(scope.curValue));
+              goTo = Math.round(scope.curValue*100 / totalSteps);
+              return (goTo <= availableWidth) ? goTo : availableWidth;
+            }else{
+              return undefined;
+            }
           }
         }
 
@@ -242,7 +248,9 @@ angular.module('rangeSlider')
           updateBoundVar();
         }
 
-
+        function isUndefined(value){
+          return typeof value == 'undefined';
+        }
 
         /**
          * @description Main initialization function which will be called when directive is initialized
@@ -274,13 +282,21 @@ angular.module('rangeSlider')
           if (totalSteps) {
             scope.listItemWidth = Math.round((rgSliderWrapper.clientWidth * (100 / totalSteps)) / 100) + 'px';
             // Set first value as current value
+          }
 
-          }
-          if ((typeof scope.invalidFrom != 'undefined') && (typeof scope.invalidTo == 'undefined') && totalSteps){
-            scope.invalidTo = totalSteps+1;
-          }
-          if ((typeof scope.invalidFrom == 'undefined') && (typeof scope.invalidTo != 'undefined') && totalSteps){
-            scope.invalidFrom = 0;
+          // Dinamically declare isValidValue for more performance 
+          if ( isUndefined(scope.invalidFrom) && isUndefined(scope.invalidTo) ){
+            isValidValue = function (){ return true };
+          }else if ( isUndefined(scope.invalidFrom) && !isUndefined(scope.invalidTo) ){
+            isValidValue = function (value){ return value > scope.invalidTo };
+            getClosestValidValue = function (value){ return (value <= scope.invalidTo )? scope.invalidTo+1:value; };
+          }else if ( !isUndefined(scope.invalidFrom) && isUndefined(scope.invalidTo) ){
+            isValidValue = function (value){ return value < scope.invalidFrom };
+            getClosestValidValue = function (value){ return scope.invalidFrom-1 };
+          }else{
+            isValidValue = function (value){ return (value < scope.invalidFrom) || (value > scope.invalidTo) };
+            invalidRangeMiddle = (scope.invalidTo + scope.invalidFrom) / 2;
+            getClosestValidValue = function (value){ return (value > invalidRangeMiddle)? scope.invalidTo+1 : (value < invalidRangeMiddle)?scope.invalidFrom-1:value; };
           }
 
           setTracker();
