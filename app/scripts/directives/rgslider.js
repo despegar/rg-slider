@@ -3,7 +3,7 @@ angular.module('rangeSlider')
   .directive('rgSlider', [function () {
     return {
       templateUrl: '../../views/rg-slider.html',
-      restrict: 'E',
+      restrict: 'EA',
       scope: {
         trackerClass:   '@',
         trackBarClass:  '@',
@@ -79,6 +79,7 @@ angular.module('rangeSlider')
 
         function windowResizeHandler(){
           wrapperOfssetLeft = wrapper.firstChild.getBoundingClientRect().left;
+          rgSliderWrapperWidth = rgSliderWrapper.clientWidth - (trackerWidth / 2);
         }
 
         function mouseDownHandler() {
