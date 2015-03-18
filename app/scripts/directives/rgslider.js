@@ -20,6 +20,7 @@ angular.module('rangeSlider')
       link: function postLink(scope, element) {
         var tracker,
           rgSliderWrapper,
+          rgSliderWrapperWidth,
           wrapper = element[0],
           curX,
           totalSteps,
@@ -70,6 +71,7 @@ angular.module('rangeSlider')
         tracker = getElementByClassName(element[0], 'rg-tracker');
         rgSliderWrapper = getElementByClassName(element[0], 'rg-slider-wrapper');
         trackerWidth = tracker.clientWidth;
+        rgSliderWrapperWidth = rgSliderWrapper.clientWidth - (trackerWidth / 2);
 
         function startUpdatingTracker() {
           positionWatcher = true;
@@ -107,10 +109,12 @@ angular.module('rangeSlider')
          * @param {number} currentStep is the boundVar value, if it defined we calculating with exact step
          */
         function getExpectedPosition(currentStep) {
-          var goTo = ((100 * (curX - trackerWidth/2)) / rgSliderWrapper.clientWidth),
-            availableWidth = 100 - ((100 * trackerWidth) / rgSliderWrapper.clientWidth);
+          var goTo = ((100 * (curX - trackerWidth/2)) / (rgSliderWrapperWidth + (trackerWidth / 2))),
+            availableWidth = 100 - ((100 * trackerWidth) / rgSliderWrapperWidth);
           // to not get negative value
-          if (goTo < 0) {
+          if (curX > rgSliderWrapperWidth+(trackerWidth/2)){
+                goTo = 100;
+          }else if (goTo < 0) {
             goTo = 0;
           }
           scope.curValue = Math.round(goTo);
@@ -280,7 +284,7 @@ angular.module('rangeSlider')
           }
           // if we total steps then set ul>li's exact width
           if (totalSteps) {
-            scope.listItemWidth = Math.round((rgSliderWrapper.clientWidth * (100 / totalSteps)) / 100) + 'px';
+            scope.listItemWidth = Math.round((rgSliderWrapperWidth * (100 / totalSteps)) / 100) + 'px';
             // Set first value as current value
           }
 
