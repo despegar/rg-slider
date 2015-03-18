@@ -66,12 +66,13 @@
         </div>
 
         <div class="panel panel-default" ng-if="true">
-            <div class="panel-heading"><b > Example with step and invalid range (from 650 to 800)</b></div>
+            <div class="panel-heading"><b > Example with step and invalid range (from 650 to 800) show-current-value option</b></div>
             <div class="panel-body">
                 <rg-slider bound-var="sliderValue"
                            invalid-from="650"
                            invalid-to="800"
-                           step="1000"></rg-slider>
+                           step="1000"
+                           show-current-value="true"></rg-slider>
                 <p>&nbsp;</p>
                 <h5><b>Slider value&nbsp;</b><span class="label label-info">{{sliderValue}}</span></h5>
                 <h5><b>Code &nbsp;</b></h5>
@@ -80,7 +81,8 @@
             bound-var="sliderValue"
             invalid-from="650"
             invalid-to="800"
-            step="1000"&gt;
+            step="1000"
+            show-current-value="true"&gt;
         &lt;&#47;rg-slider&gt; </pre>
             </div>
         </div>

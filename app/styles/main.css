@@ -2,6 +2,10 @@
 .rg-tracker {
     position: relative;
 }
+.rg-tracker-number {
+    position: relative;
+    display:inline-block;
+}
 .rg-slider-wrapper {
     width: 100%;
 }
@@ -34,6 +38,25 @@
 
 .rg-list-lastitem {
     float: right;
+}
+
+.rg-tracker-number.outer {
+    display: block;
+    position: relative;
+    width: 1em;
+}
+.rg-tracker-number .inner {
+    /* shrink-to-fit width */
+    display: inline-block;
+    position: relative;
+    /* shift left edge of text to center */
+    left: 50%;
+}
+.rg-tracker-number .text {
+    /* shift left edge of text half distance to left */
+    margin-left: -50%;
+    /* text should all be on one line */
+    white-space: nowrap;
 }
 
 

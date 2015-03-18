@@ -9,6 +9,7 @@ angular.module('rangeSlider')
         trackBarClass:  '@',
         navigatorClass: '@',
         showNavigator:  '@',
+        showCurrentValue:   '@',
         step:           '=',
         navigatorFrom:  '=',
         navigatorTo:    '=',
@@ -19,6 +20,7 @@ angular.module('rangeSlider')
       replace: false,
       link: function postLink(scope, element) {
         var tracker,
+          trackerNumber,
           rgSliderWrapper,
           rgSliderWrapperWidth,
           wrapper = element[0],
@@ -69,6 +71,9 @@ angular.module('rangeSlider')
         }
 
         tracker = getElementByClassName(element[0], 'rg-tracker');
+        if (scope.showCurrentValue){
+         trackerNumber = getElementByClassName(element[0], 'rg-tracker-number');
+        }
         rgSliderWrapper = getElementByClassName(element[0], 'rg-slider-wrapper');
         trackerWidth = tracker.clientWidth;
         rgSliderWrapperWidth = rgSliderWrapper.clientWidth - (trackerWidth / 2);
@@ -175,6 +180,7 @@ angular.module('rangeSlider')
           var newLeftValue = getExpectedPosition(currentStep);
           if (typeof newLeftValue != 'undefined'){
             tracker.style.left = newLeftValue+ '%';
+            if (scope.showCurrentValue) trackerNumber.style.left = newLeftValue+ '%';
             updateBoundVar();
           }
         }
