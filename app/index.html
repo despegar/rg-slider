@@ -67,22 +67,31 @@
 
         <div class="panel panel-default" ng-if="true">
             <div class="panel-heading"><b > Example with step and invalid range (from 650 to 800) show-current-value option</b></div>
-            <div class="panel-body">
+            <div class="panel-body" ng-init="sliderValue = 80; 
+                                                              markers = [{atValue: 999, text: 'Usted tiene 1000 puntos', height: '15px'},
+                                                                                {atValue: 900, text: 'Impuestos y tasas', height: '40px'}];
+                                                              colorBars = [{endAt: 920, class: 'red-bar'}, {endAt: 700, class: 'green-bar'}];">
                 <rg-slider bound-var="sliderValue"
-                           invalid-from="650"
-                           invalid-to="800"
+                           invalid-from="900"
+                           invalid-to="999"
                            step="1000"
-                           show-current-value="true"></rg-slider>
+                           show-current-value="true"
+                           show-track-bar-trail="true"
+                           markers="markers"
+                           color-bars="colorBars"
+                           ></rg-slider>
                 <p>&nbsp;</p>
                 <h5><b>Slider value&nbsp;</b><span class="label label-info">{{sliderValue}}</span></h5>
                 <h5><b>Code &nbsp;</b></h5>
                     <pre class="prettyprint linenums">
         &lt;rg-slider
-            bound-var="sliderValue"
-            invalid-from="650"
-            invalid-to="800"
-            step="1000"
-            show-current-value="true"&gt;
+            invalid-from="900"
+           invalid-to="999"
+           step="1000"
+           show-current-value="true"
+           show-track-bar-trail="true"
+           markers="markers"
+           color-bars="colorBars"&gt;
         &lt;&#47;rg-slider&gt; </pre>
             </div>
         </div>

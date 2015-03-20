@@ -8,6 +8,7 @@
 }
 .rg-slider-wrapper {
     width: 100%;
+    position: relative;
 }
 .rg-slider-trackbar {
     background: lightgrey;
@@ -59,5 +60,50 @@
     white-space: nowrap;
 }
 
-
 /* DON'T REMOVE THIS STYLE */
+.color-bar{
+    position: absolute;
+    height: 10px;
+}
+.color-bar.green-bar{
+    background-color: green;
+}
+.color-bar.red-bar{
+    background-color: red;
+}
+.rg-trackbar-trail{
+    position: absolute;
+    height: 10px;
+    background-color: blue;
+}
+
+.marker{
+    /*position: absolute;*/
+}
+.marker.outer {
+    display: block;
+    position: relative;
+    width: 1em;
+}
+.marker .inner {
+    /* shrink-to-fit width */
+    display: inline-block;
+    position: relative;
+    /* shift left edge of text to center */
+    left: 50%;
+}
+.marker .text {
+    /* shift left edge of text half distance to left */
+    margin-left: -50%;
+    /* text should all be on one line */
+    white-space: nowrap;
+    background-color: rgba(255,255,255,0.7);
+    margin-top: 5px;
+}
+.marker-line{
+    position: absolute;
+    left: 65.6701835827365%;
+    width: 2px;
+    height: 20px;
+    background-color: black;
+}

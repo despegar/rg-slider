@@ -10,17 +10,21 @@ angular.module('rangeSlider')
         navigatorClass: '@',
         showNavigator:  '@',
         showCurrentValue:   '@',
+        showTrackBarTrail:   '@',
         step:           '=',
         navigatorFrom:  '=',
         navigatorTo:    '=',
         boundVar:       '=',
         invalidFrom:       '=',
-        invalidTo:       '='
+        invalidTo:       '=',
+        markers:        '=',
+        colorBars:       '='
       },
       replace: false,
       link: function postLink(scope, element) {
         var tracker,
           trackerNumber,
+          trackbarTrail,
           rgSliderWrapper,
           rgSliderWrapperWidth,
           wrapper = element[0],
@@ -29,6 +33,7 @@ angular.module('rangeSlider')
           selectedStep,
           positionWatcher,
           trackerWidth,
+          trackerWidthPercent,
           STEP_DIFFERENCE = 1,
           wrapperOfssetLeft = wrapper.firstChild.getBoundingClientRect().left,
           isValidValue,
@@ -69,14 +74,54 @@ angular.module('rangeSlider')
           return foundedElement;
 
         }
-
+       
         tracker = getElementByClassName(element[0], 'rg-tracker');
         if (scope.showCurrentValue){
          trackerNumber = getElementByClassName(element[0], 'rg-tracker-number');
         }
         rgSliderWrapper = getElementByClassName(element[0], 'rg-slider-wrapper');
         trackerWidth = tracker.clientWidth;
-        rgSliderWrapperWidth = rgSliderWrapper.clientWidth - (trackerWidth / 2);
+        if(scope.showTrackBarTrail){
+          trackbarTrail = getElementByClassName(element[0], 'rg-trackbar-trail');
+        }
+        rgSliderWrapperWidth = rgSliderWrapper.clientWidth /*- (trackerWidth / 2)*/;
+        trackerWidthPercent = trackerWidth * 100 / rgSliderWrapperWidth;
+
+        function initializeMarkers(){
+          var marker,
+                markerTextElement,
+                markerTextElementWidthPercent,
+                slicePercent,
+                pixelsSlice;
+          if (scope.markers && totalSteps){
+            for(var m=0;m<scope.markers.length;m++){
+              marker = scope.markers[m];
+              marker.left = ((marker.atValue * 100 / totalSteps)/*+ trackerWidthPercent/2*/) + '%';
+              /*markerTextElement = getElementByClassName(element[0], 'marker-text-'+m);
+              markerTextElementWidthPercent = markerTextElement.clientWidth * 100 / rgSliderWrapperWidth;
+              if (100 - marker.left < markerTextElementWidthPercent/2){
+                slicePercent = markerTextElementWidthPercent/2 - (100 - marker.left);
+                pixelsSlice = slicePercent * 100 / rgSliderWrapperWidth;
+                marker.left = (-50) - (pixelsSlice * 100 / markerTextElement.clientWidth) + '%';
+              }*/
+              if ((parseFloat(marker.left) > 85) && (parseFloat(marker.left) <= 90)){
+                marker.textLeft = '-75%';
+              }else if (parseFloat(marker.left) > 90){
+                marker.textLeft = '-100%';
+              }
+            }
+          }
+        }
+
+        function initializeColorBars(){
+          var colorBar;
+          if (scope.colorBars && totalSteps){
+              for(var c=0;c<scope.colorBars.length;c++){
+                colorBar = scope.colorBars[c];
+                colorBar.width = (colorBar.endAt * 100 / rgSliderWrapperWidth) + '%';
+              }
+          }
+        }
 
         function startUpdatingTracker() {
           positionWatcher = true;
@@ -122,6 +167,8 @@ angular.module('rangeSlider')
                 goTo = 100;
           }else if (goTo < 0) {
             goTo = 0;
+          }else if (goTo > 99) {
+            goTo = 100;
           }
           scope.curValue = Math.round(goTo);
           // if setted step go calculate exact step
@@ -181,6 +228,7 @@ angular.module('rangeSlider')
           if (typeof newLeftValue != 'undefined'){
             tracker.style.left = newLeftValue+ '%';
             if (scope.showCurrentValue) trackerNumber.style.left = newLeftValue+ '%';
+            if (scope.showTrackBarTrail) trackbarTrail.style.width = (newLeftValue + trackerWidthPercent/2) + '%';
             updateBoundVar();
           }
         }
@@ -295,7 +343,7 @@ angular.module('rangeSlider')
             // Set first value as current value
           }
 
-          // Dinamically declare isValidValue for more performance 
+          // Dinamically declare isValidValue (of valid range) for more performance 
           if ( isUndefined(scope.invalidFrom) && isUndefined(scope.invalidTo) ){
             isValidValue = function (){ return true };
           }else if ( isUndefined(scope.invalidFrom) && !isUndefined(scope.invalidTo) ){
@@ -309,6 +357,9 @@ angular.module('rangeSlider')
             invalidRangeMiddle = (scope.invalidTo + scope.invalidFrom) / 2;
             getClosestValidValue = function (value){ return (value > invalidRangeMiddle)? scope.invalidTo+1 : (value < invalidRangeMiddle)?scope.invalidFrom-1:value; };
           }
+
+          initializeMarkers();
+          initializeColorBars();
 
           setTracker();
 
