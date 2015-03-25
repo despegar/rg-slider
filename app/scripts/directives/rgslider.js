@@ -92,11 +92,19 @@ angular.module('rangeSlider')
                 markerTextElement,
                 markerTextElementWidthPercent,
                 slicePercent,
-                pixelsSlice;
+                pixelsSlice,
+                markerLeft, maximumLeft;
           if (scope.markers && totalSteps){
+            maximumLeft = 100 - trackerWidthPercent/2;
             for(var m=0;m<scope.markers.length;m++){
               marker = scope.markers[m];
-              marker.left = ((marker.atValue * 100 / totalSteps)/*+ trackerWidthPercent/2*/) + '%';
+              markerLeft = marker.atValue * 100 / totalSteps ;
+
+              if ( markerLeft + trackerWidthPercent/2 > maximumLeft  ){
+                marker.left = maximumLeft + '%';
+              }else{
+                marker.left = ((marker.atValue * 100 / totalSteps) + trackerWidthPercent/2) + '%';
+              }
               /*markerTextElement = getElementByClassName(element[0], 'marker-text-'+m);
               markerTextElementWidthPercent = markerTextElement.clientWidth * 100 / rgSliderWrapperWidth;
               if (100 - marker.left < markerTextElementWidthPercent/2){
