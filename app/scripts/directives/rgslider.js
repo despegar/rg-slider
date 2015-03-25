@@ -114,11 +114,12 @@ angular.module('rangeSlider')
         }
 
         function initializeColorBars(){
-          var colorBar;
+          var colorBar, percent;
           if (scope.colorBars && totalSteps){
               for(var c=0;c<scope.colorBars.length;c++){
                 colorBar = scope.colorBars[c];
-                colorBar.width = (colorBar.endAt * 100 / rgSliderWrapperWidth) + '%';
+                percent = (colorBar.endAt * 100 / totalSteps);
+                colorBar.width = percent + '%';
               }
           }
         }
