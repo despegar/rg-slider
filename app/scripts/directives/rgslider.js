@@ -95,13 +95,12 @@ angular.module('rangeSlider')
                 pixelsSlice,
                 markerLeft, maximumLeft;
           if (scope.markers && totalSteps){
-            maximumLeft = 100 - trackerWidthPercent/2;
             for(var m=0;m<scope.markers.length;m++){
               marker = scope.markers[m];
               markerLeft = marker.atValue * 100 / totalSteps ;
 
-              if ( markerLeft + trackerWidthPercent/2 > maximumLeft  ){
-                marker.left = maximumLeft + '%';
+              if ( markerLeft + trackerWidthPercent/2 > 100  ){
+                marker.left = '100%';
               }else{
                 marker.left = ((marker.atValue * 100 / totalSteps) + trackerWidthPercent/2) + '%';
               }
@@ -127,7 +126,11 @@ angular.module('rangeSlider')
               for(var c=0;c<scope.colorBars.length;c++){
                 colorBar = scope.colorBars[c];
                 percent = (colorBar.endAt * 100 / totalSteps);
-                colorBar.width = percent + '%';
+                if (percent + trackerWidthPercent/2 > 100){
+                  colorBar.width = percent + '%';
+                }else{
+                  colorBar.width = percent + trackerWidthPercent/2 + '%';
+                }
               }
           }
         }
