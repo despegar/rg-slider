@@ -269,7 +269,7 @@ angular.module('rangeSlider')
          */
         function generateNavigatorListByStep() {
           var navList = [], i;
-          for (i = 1; i <= totalSteps; i++) {
+          for (i = 1; i <= totalSteps+1; i++) {
             navList.push(i);
           }
           scope.navList = navList;
