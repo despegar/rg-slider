@@ -1,4 +1,3 @@
-'use strict';
 angular.module('rangeSlider')
   .directive('rgSlider', [function () {
     return {
@@ -182,7 +181,11 @@ angular.module('rangeSlider')
           }else if (goTo > 99) {
             goTo = 100;
           }
-          scope.curValue = Math.round(goTo);
+
+          if(isUndefined(scope.curValue)){
+            scope.curValue = Math.round(goTo);
+          }
+
           // if setted step go calculate exact step
           if (totalSteps) {
             goTo = calculateByStep(goTo,currentStep);
@@ -377,7 +380,12 @@ angular.module('rangeSlider')
 
         }
 
-        init();
+        scope.$watch('step', function(newV, oldV){
+          if(newV){
+            curX = undefined;
+            init();
+          }
+        })
       }
     };
   }]);
