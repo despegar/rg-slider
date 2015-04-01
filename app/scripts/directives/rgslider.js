@@ -201,7 +201,7 @@ angular.module('rangeSlider')
           }else{
             if ( !isUndefined(scope.invalidFrom) || !isUndefined(scope.invalidTo) ){
               scope.curValue = Math.round(getClosestValidValue(scope.curValue));
-              goTo = Math.trunc((scope.curValue * 100 / totalSteps) * 100)/100;
+              goTo = Math.round((scope.curValue * 100 / totalSteps) * 100)/100;
               return (goTo <= availableWidth) ? goTo : availableWidth;
             }else{
               return undefined;
@@ -218,7 +218,7 @@ angular.module('rangeSlider')
         function calculateByStep(value, currentStep) {
           var eachStep = 100 / totalSteps,
             rounded = (value >= 0) ? Math.round(value / eachStep) : currentStep,
-            goTo = Math.trunc(rounded * eachStep * 100)/100;
+            goTo = Math.round(rounded * eachStep * 100)/100;
           // set current step in curValue
           scope.curValue = scope.navList[rounded];
           // if the value is last value then set it
