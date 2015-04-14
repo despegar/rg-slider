@@ -17,7 +17,8 @@ angular.module('rangeSlider')
         invalidFrom:       '=',
         invalidTo:       '=',
         markers:        '=',
-        colorBars:       '='
+        colorBars:       '=',
+        disabled:       '='
       },
       replace: false,
       link: function postLink(scope, element) {
@@ -339,7 +340,11 @@ angular.module('rangeSlider')
          */
         function init() {
           scope.$on('$destroy', removeEventListeners);
-          initEventListeners();
+          
+          if (!scope.disabled){
+           initEventListeners();
+          }
+
           selectedStep = 0;
           // navigatorFrom and step property cant be used together because when setted navigatorFrom step will be calculated automatically
           if (scope.navigatorFrom && scope.step) {
@@ -381,8 +386,11 @@ angular.module('rangeSlider')
           initializeMarkers();
           initializeColorBars();
 
-          setTracker();
-
+          if (scope.disabled && scope.boundVar === 0){
+            curX = 0;
+          }else{
+            setTracker();
+          }
         }
 
         scope.$watch('step', function(newV, oldV){

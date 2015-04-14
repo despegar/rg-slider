@@ -112,6 +112,25 @@
         &lt;&#47;rg-slider&gt; </pre>
             </div>
         </div>
+        <div class="panel panel-default" ng-if="true">
+            <div class="panel-heading"><b > Example with disabled slider</b></div>
+            <div class="panel-body" ng-init="sliderValue =0; ">
+                <rg-slider bound-var="sliderValue"
+                           disabled="true"
+                           show-current-value="true"
+                           step="0"></rg-slider>
+                <p>&nbsp;</p>
+                <h5><b>Slider value&nbsp;</b><span class="label label-info">{{sliderValue}}</span></h5>
+                <h5><b>Code &nbsp;</b></h5>
+                    <pre class="prettyprint linenums">
+        &lt;rg-slider
+            bound-var="sliderValue"
+            disabled="true"
+            show-current-value="true"
+            step="0"&gt;
+        &lt;&#47;rg-slider&gt; </pre>
+            </div>
+        </div>
       <div class="panel panel-default" ng-if="true">
             <div class="panel-heading"><b > Example with step</b></div>
             <div class="panel-body">
