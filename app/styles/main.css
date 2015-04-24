@@ -71,6 +71,9 @@
 .color-bar.red-bar{
     background-color: red;
 }
+.color-bar.yellow-bar{
+    background-color: yellow;
+}
 .rg-trackbar-trail{
     position: absolute;
     height: 10px;

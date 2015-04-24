@@ -130,11 +130,19 @@ angular.module('rangeSlider')
           if (scope.colorBars && totalSteps){
               for(var c=0;c<scope.colorBars.length;c++){
                 colorBar = scope.colorBars[c];
-                percent = (colorBar.endAt * 100 / totalSteps);
-                if (percent + trackerWidthPercent/2 > 100){
-                  colorBar.width = percent + '%';
+                if (!colorBar.startAt){
+                  colorBar.startAt = 0;
+                }
+                if (!colorBar.endAt){
+                  colorBar.endAt = totalSteps;
+                }
+                percentWidth = ((colorBar.endAt - colorBar.startAt) * 100 / totalSteps);
+                percentLeft = (colorBar.startAt * 100 / totalSteps) + trackerWidthPercent/2;
+                colorBar.left = percentLeft + '%';
+                if (percentWidth + percentLeft > 100){
+                  colorBar.width = (100 - percentLeft) + '%';
                 }else{
-                  colorBar.width = percent + trackerWidthPercent/2 + '%';
+                  colorBar.width = percentWidth + '%';
                 }
               }
           }
