@@ -69,7 +69,8 @@
             <div class="panel-heading"><b > Example with step and invalid range (from 650 to 800) show-current-value option</b></div>
             <div class="panel-body" ng-init="sliderValue = 80; 
                                                               markers = [{atValue: 700, text: 'Usted tiene 700 puntos', height: '15px'},
-                                                                                {atValue: 900, text: 'Impuestos y tasas', height: '40px', class: 'some-class'}];
+                                                                                {atValue: 900, text: 'Impuestos y tasas', height: '40px', class: 'some-class'},
+                                                                                {atValue: 1000, text: 'Max. 1000', height: '40px', class: 'some-class', adjustMarkerText: true}];
                                                               colorBars = [{endAt: 900, class: 'red-bar'}, {endAt: 700, class: 'green-bar'}, {startAt: 900, endAt: 999, class: 'yellow-bar'}];">
                 <rg-slider bound-var="sliderValue"
                            invalid-from="900"

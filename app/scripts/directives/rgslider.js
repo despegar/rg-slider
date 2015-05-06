@@ -111,15 +111,17 @@ angular.module('rangeSlider')
                 pixelsSlice = slicePercent * 100 / rgSliderWrapperWidth;
                 marker.left = (-50) - (pixelsSlice * 100 / markerTextElement.clientWidth) + '%';
               }*/
-              if ((markerLeft >= 10) && (markerLeft < 15)){
-                marker.textLeft = '-25%';
-              }else if (markerLeft < 10){
-                marker.textLeft = '-5%';
-              }
-              if ((markerLeft > 85) && (markerLeft <= 90)){
-                marker.textLeft = '-75%';
-              }else if (markerLeft > 90){
-                marker.textLeft = '-100%';
+              if (marker.adjustMarkerText){
+                if ((markerLeft >= 10) && (markerLeft < 15)){
+                  marker.textLeft = '-25%';
+                }else if (markerLeft < 10){
+                  marker.textLeft = '-5%';
+                }
+                if ((markerLeft > 85) && (markerLeft <= 90)){
+                  marker.textLeft = '-75%';
+                }else if (markerLeft > 90){
+                  marker.textLeft = '-100%';
+                }
               }
             }
           }
