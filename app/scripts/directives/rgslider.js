@@ -264,6 +264,19 @@ angular.module('rangeSlider')
           }
         }
 
+        function slideAndSetTracker(value) {
+          if(totalSteps){
+            var newLeftValue = value*100/ totalSteps;
+          }
+          if (typeof newLeftValue != 'undefined'){
+            tracker.style.left = newLeftValue+ '%';
+            if (scope.showCurrentValue) trackerNumber.style.left = newLeftValue+ '%';
+            if (scope.showTrackBarTrail) trackbarTrail.style.width = (newLeftValue + trackerWidthPercent/2) + '%';
+            scope.curValue = Math.round(value);
+            updateBoundVar();
+          }
+        }
+
         /**
          * @description initialize event listeners
          */
@@ -408,7 +421,11 @@ angular.module('rangeSlider')
             curX = undefined;
             init();
           }
-        })
+        });
+        scope.$on('sliderValueChange', function(event, newValue){
+            slideAndSetTracker(newValue);
+        });
+
       }
     };
   }]);
