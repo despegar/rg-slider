@@ -84,7 +84,7 @@ angular.module('rangeSlider')
         if(scope.showTrackBarTrail){
           trackbarTrail = getElementByClassName(element[0], 'rg-trackbar-trail');
         }
-        rgSliderWrapperWidth = rgSliderWrapper.clientWidth /*- (trackerWidth / 2)*/;
+        rgSliderWrapperWidth = rgSliderWrapper.clientWidth - (trackerWidth / 2);
         trackerWidthPercent = trackerWidth * 100 / rgSliderWrapperWidth;
 
         function initializeMarkers(){
@@ -267,6 +267,9 @@ angular.module('rangeSlider')
         function slideAndSetTracker(value) {
           if(totalSteps){
             var newLeftValue = value*100/ totalSteps;
+            if (newLeftValue > (100 - trackerWidthPercent)){
+              newLeftValue = 100 - trackerWidthPercent;
+            }
           }
           if (typeof newLeftValue != 'undefined'){
             tracker.style.left = newLeftValue+ '%';

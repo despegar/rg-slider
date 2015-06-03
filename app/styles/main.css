@@ -16,8 +16,8 @@
 }
 
 .rg-tracker {
-    width: 10px;
-    height: 10px;
+    width: 20px;
+    height: 20px;
     background: deeppink;
     border-radius: inherit;
 }
