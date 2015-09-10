@@ -25,14 +25,5 @@ angular.module('rangeSlider',[])
     '<div data-ng-show="markers" data-ng-repeat="marker in markers track by $index" class="marker outer" data-ng-style="{left: marker.left}">' +
         '<div class="inner"><div class="text marker-text" data-ng-class="marker.class" data-ng-style="{marginLeft: marker.textLeft}">{{marker.text}}</div></div>' +
     '</div> ' +
- '</div>' +
-'<div class="rg-navigator" ng-if="showNavigator" ng-class="navigatorClass">' +
-    '<ul> ' +
-   '<li ng-repeat="item in navList  track by $index" ng-style="{width: listItemWidth}">' +
-  ' <span ng-class="{rgActive: (item === curValue)}">{{item}}</span> ' +
-  '<span ng-class="{rgActive: (item+1 === curValue)}" class="rg-list-lastitem" ng-if="$last">{{item + 1 }}</span>' +
-   '</li>' +
-    '</ul>' +
-  '</div>' +
-  '</div>');
+ '</div>');
     }]);

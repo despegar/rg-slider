@@ -7,12 +7,12 @@ angular.module('rangeSlider')
         trackerClass:   '@',
         trackBarClass:  '@',
         navigatorClass: '@',
-        showNavigator:  '@',
+        /*showNavigator:  '@', OPTION DELETED*/
         showCurrentValue:   '@',
         showTrackBarTrail:   '@',
         step:           '=',
-        navigatorFrom:  '=',
-        navigatorTo:    '=',
+        /*navigatorFrom:  '=',
+        navigatorTo:    '=',*/
         boundVar:       '=',
         invalidFrom:       '=',
         invalidTo:       '=',
@@ -231,10 +231,10 @@ angular.module('rangeSlider')
             rounded = (value >= 0) ? Math.round(value / eachStep) : currentStep,
             goTo = Math.round(rounded * eachStep * 100)/100;
           // set current step in curValue
-          scope.curValue = scope.navList[rounded];
+          scope.curValue = rounded+1; //scope.navList[rounded];
           // if the value is last value then set it
           if (Math.floor(goTo) === 100) {
-            scope.curValue = scope.navList[rounded - 1] + 1;
+            scope.curValue = rounded + 1; //scope.navList[rounded - 1] + 1;
           }
 
           return goTo;
@@ -299,18 +299,18 @@ angular.module('rangeSlider')
         /**
          * @description Generate navigation list if scope.showNavigator is true and step is provided
          */
-        function generateNavigatorListByStep() {
+        /*function generateNavigatorListByStep() {
           var navList = [], i;
           for (i = 1; i <= totalSteps+1; i++) {
             navList.push(i);
           }
           scope.navList = navList;
-        }
+        }*/
 
         /**
          * @description Generate navigation list if scope.showNavigator is true and (navigatorFrom && navigatorTo)  is provided
          */
-        function generateNavigatorList() {
+        /*function generateNavigatorList() {
           scope.navigatorFrom = parseInt(scope.navigatorFrom, 10);
           scope.navigatorTo = parseInt(scope.navigatorTo, 10);
           var navList = [], i, length = totalSteps + scope.navigatorFrom - STEP_DIFFERENCE;
@@ -324,19 +324,19 @@ angular.module('rangeSlider')
           }
           scope.navList = navList;
 
-        }
+        }*/
 
         /**
          * @description Set tracker position / if we have default value in boundVar slide to it, if not set first element from nav list
          */
         function setTracker() {
           // Update value in curValue and skip rest because we don't have navigation list
-          if (!angular.isArray(scope.navList)) {
+          /*if (!angular.isArray(scope.navList)) {
             setCurrentValue();
             return;
-          }
+          }*/
 
-          var index = scope.navList.indexOf(scope.boundVar);
+          var index = scope.boundVar-1;//scope.navList.indexOf(scope.boundVar);
 
           if (index !== -1) {
             slideTracker(index);
@@ -350,7 +350,7 @@ angular.module('rangeSlider')
          * @description Set current value to bound var and call $digest
          */
         function setCurrentValue() {
-          scope.curValue = (totalSteps) ? scope.navList[0] : 0;
+          scope.curValue = (totalSteps) ? 1: 0;//scope.navList[0] : 0;
           updateBoundVar();
         }
 
@@ -373,19 +373,19 @@ angular.module('rangeSlider')
 
           selectedStep = 0;
           // navigatorFrom and step property cant be used together because when setted navigatorFrom step will be calculated automatically
-          if (scope.navigatorFrom && scope.step) {
+          /*if (scope.navigatorFrom && scope.step) {
             throw new Error('navigatorFrom and step can not be used together');
-          }
+          }*/
           // Check if we have seted steps range in scope
-          if (scope.navigatorFrom !== undefined && scope.navigatorTo && scope.showNavigator) {
+          /*if (scope.navigatorFrom !== undefined && scope.navigatorTo && scope.showNavigator) {
             totalSteps = scope.navigatorTo - scope.navigatorFrom;
             generateNavigatorList();
 
-          }
+          }*/
           // check if we have only setted step
           if (scope.step) {
             totalSteps = parseInt(scope.step, 10) - STEP_DIFFERENCE;
-            generateNavigatorListByStep();
+            //generateNavigatorListByStep();
 
           }
           // if we total steps then set ul>li's exact width
