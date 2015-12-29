@@ -18,7 +18,8 @@ angular.module('rangeSlider')
         invalidTo:       '=',
         markers:        '=',
         colorBars:       '=',
-        disabled:       '='
+        disabled:       '=',
+        pointsSteps:    '='
       },
       replace: false,
       link: function postLink(scope, element) {
@@ -210,9 +211,10 @@ angular.module('rangeSlider')
           if ( isValidValue(scope.curValue) ) {
               return (goTo <= availableWidth) ? goTo : availableWidth;
           }else{
-            if ( !isUndefined(scope.invalidFrom) || !isUndefined(scope.invalidTo) ){
+            if ((!isUndefined(scope.invalidFrom) || !isUndefined(scope.invalidTo)) || scope.pointsSteps){
               scope.curValue = Math.round(getClosestValidValue(scope.curValue));
-              goTo = Math.round((scope.curValue * 100 / totalSteps) * 100)/100;
+              var tmp = (scope.pointsSteps)? (scope.curValue-1) : scope.curValue;
+              goTo = Math.round((tmp * 100 / totalSteps) * 100)/100;
               return (goTo <= availableWidth) ? goTo : availableWidth;
             }else{
               return undefined;
@@ -407,6 +409,25 @@ angular.module('rangeSlider')
             isValidValue = function (value){ return (value < scope.invalidFrom) || (value > scope.invalidTo) };
             invalidRangeMiddle = (scope.invalidTo + scope.invalidFrom) / 2;
             getClosestValidValue = function (value){ return (value > invalidRangeMiddle)? scope.invalidTo+1 : (value < invalidRangeMiddle)?scope.invalidFrom-1:value; };
+          }
+
+          if(scope.pointsSteps && scope.pointsSteps.length){
+            isValidValue = function (value){ 
+              return (scope.pointsSteps.indexOf(value) != -1);
+            }
+            getClosestValidValue = function (value){ 
+              var arr = scope.pointsSteps;
+              var closest = arr[0];
+              var minDiff = 1000000;
+              for(var i = 0; i < arr.length; i++){ //Loop the array
+                  var diff = Math.abs(arr[i] - value);
+                  if(diff < minDiff) {
+                    minDiff = diff;
+                    closest = arr[i]; 
+                  }
+              }
+              return closest;
+            }
           }
 
           initializeMarkers();

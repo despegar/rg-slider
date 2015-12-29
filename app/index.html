@@ -219,23 +219,27 @@
         &lt;&#47;rg-slider&gt; </pre>
             </div>
         </div> -->
-        <div class="panel panel-default" ng-if="true">
+        <div class="panel panel-default" ng-if="true"
+            ng-init="sliderValue =751; ">
             <div class="panel-heading"><b> Example without navigator but with steps</b></div>
             <div class="panel-body">
                 <rg-slider tracker-class="my-tracker rg-tracker-with-animation"
                            navigator-class="my-navigator"
                            bound-var="sliderValue"
-                           step="15"
+                           step="2000"
+                           points-steps="[1,500,1000,1500, 2500]"
                         ></rg-slider>
                 <p>&nbsp;</p>
                 <h5><b>Slider value&nbsp;</b><span class="label label-info">{{sliderValue}}</span></h5>
                 <h5><b>Code &nbsp;</b></h5>
                     <pre class="prettyprint linenums">
+        
         &lt;rg-slider
             tracker-class="my-tracker rg-tracker-with-animation"
             navigator-class="my-navigator"
             bound-var="sliderValue"
-            step="15"&gt;
+            step="1100"
+            points-steps="[1,500,1000,1500]"&gt;
         &lt;&#47;rg-slider&gt; </pre>
             </div>
         </div>
