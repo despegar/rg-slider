@@ -23,7 +23,7 @@ angular.module('rangeSlider',[])
         '</div> ' +
     '</div> ' +
     '<div data-ng-show="markers" data-ng-repeat="marker in markers track by $index" class="marker outer" data-ng-style="{left: marker.left}">' +
-        '<div class="inner"><div class="text marker-text" data-ng-class="marker.class" data-ng-style="{marginLeft: marker.textLeft}">{{marker.text}}</div></div>' +
+        '<div class="inner" data-ng-if="marker.text"><div class="text marker-text" data-ng-class="marker.class" data-ng-style="{marginLeft: marker.textLeft}">{{marker.text}}</div></div>' +
     '</div> ' +
  '</div>');
     }]);
