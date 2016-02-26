@@ -247,7 +247,7 @@ angular.module('rangeSlider')
          */
         function updateBoundVar() {
           scope.$evalAsync(function (scope) {
-            if(scope.curValue){
+            if(!isUndefined(scope.curValue)){
               scope.boundVar = scope.curValue;
             }
           });
@@ -447,7 +447,7 @@ angular.module('rangeSlider')
           }
         });
         scope.$on('sliderValueChange', function(event, newValue){
-            slideAndSetTracker(newValue);
+           slideAndSetTracker(newValue);
         });
 
       }
