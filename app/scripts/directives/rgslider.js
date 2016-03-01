@@ -352,7 +352,7 @@ angular.module('rangeSlider')
          * @description Set current value to bound var and call $digest
          */
         function setCurrentValue() {
-          scope.curValue = (totalSteps) ? 1: 0;//scope.navList[0] : 0;
+          scope.curValue = (totalSteps && !scope.pointsSteps) ? 1: 0;//scope.navList[0] : 0; // Min is 0 if we have pointsStepts
           updateBoundVar();
         }
 
@@ -441,7 +441,7 @@ angular.module('rangeSlider')
         }
 
         scope.$watch('step', function(newV, oldV){
-          if(newV){
+          if( !isUndefined(newV) ){
             curX = undefined;
             init();
           }
