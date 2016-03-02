@@ -12,7 +12,7 @@ angular.module('rangeSlider',[])
     .run(['$templateCache',function($templateCache){
    $templateCache.put('../../views/rg-slider.html',
  '<div class="rg-slider">' +
- '<div class="rg-tracker-number outer" data-ng-show="showCurrentValue"><div class="inner"><div class="text">{{boundVar}}</div></div></div>' +
+ '<div class="rg-tracker-number outer" data-ng-show="showCurrentValue"><div class="inner"><div class="text">{{(boundVar | number).split(",").join(".")}}</div></div></div>' +
  '<div class="rg-slider-wrapper"> ' +
     '<div data-ng-if="colorBars" data-ng-repeat="color in colorBars track by $index" class="color-bar" data-ng-class="color.class" data-ng-style="{width: color.width, left: color.left}">&nbsp;</div> ' +
     '<div class="rg-trackbar-trail" data-ng-show="showTrackBarTrail"></div> ' +
