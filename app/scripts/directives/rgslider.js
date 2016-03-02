@@ -1,5 +1,5 @@
 angular.module('rangeSlider')
-  .directive('rgSlider', [function () {
+  .directive('rgSlider', ['$timeout', function ($timeout) {
     return {
       templateUrl: '../../views/rg-slider.html',
       restrict: 'EA',
@@ -450,8 +450,10 @@ angular.module('rangeSlider')
            slideAndSetTracker(newValue);
         });
         scope.$on('sliderRefresh', function(event){
-           curX = undefined;
-           init();
+          $timeout(function(){
+            curX = undefined;
+            init();
+          },0);
         });
 
       }
