@@ -449,6 +449,10 @@ angular.module('rangeSlider')
         scope.$on('sliderValueChange', function(event, newValue){
            slideAndSetTracker(newValue);
         });
+        scope.$on('sliderRefresh', function(event){
+           curX = undefined;
+           init();
+        });
 
       }
     };
